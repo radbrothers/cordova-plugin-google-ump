@@ -54,7 +54,7 @@
     
     <source-file src="src/android/Ump.java" target-dir="src/com/jptrainor/plugins/ump" />
 
-    <framework src="com.google.android.ump:user-messaging-platform:2.1.0" />
+    <framework src="com.google.android.ump:user-messaging-platform:2.2.0" />
   </platform>
   
 </plugin>
