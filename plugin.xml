@@ -33,7 +33,7 @@
             <source url="https://cdn.cocoapods.org/"/>
         </config>
         <pods use-frameworks="true">
-            <pod name="GoogleUserMessagingPlatform" spec="2.3.0" />
+            <pod name="GoogleUserMessagingPlatform" spec="2.5.0" />
         </pods>
     </podspec>
   </platform>
@@ -54,7 +54,7 @@
     
     <source-file src="src/android/Ump.java" target-dir="src/com/jptrainor/plugins/ump" />
 
-    <framework src="com.google.android.ump:user-messaging-platform:2.2.0" />
+    <framework src="com.google.android.ump:user-messaging-platform:3.0.0" />
   </platform>
   
 </plugin>
