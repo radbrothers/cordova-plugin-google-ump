@@ -17,8 +17,6 @@
   </js-module>
 
   <platform name="ios">
-    <dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>
-
     <config-file target="config.xml" parent="/*">
       <feature name="Ump">
 	<param name="ios-package" value="Ump" />
@@ -33,7 +31,7 @@
             <source url="https://cdn.cocoapods.org/"/>
         </config>
         <pods use-frameworks="true">
-            <pod name="GoogleUserMessagingPlatform" spec="2.5.0" />
+            <pod name="GoogleUserMessagingPlatform" spec="2.6.0" />
         </pods>
     </podspec>
   </platform>
