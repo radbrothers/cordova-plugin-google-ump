@@ -17,8 +17,8 @@ class Ump : CDVPlugin {
         print("isDebug: \(isDebug)")
 
 
-        let debugSettings = UMPDebugSettings()
-        let parameters = UMPRequestParameters()
+        let debugSettings = DebugSettings()
+        let parameters = RequestParameters()
         
         if isDebug {
             let deviceId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
@@ -30,19 +30,19 @@ class Ump : CDVPlugin {
         parameters.debugSettings = debugSettings
         
         if isAgeConsent {
-            parameters.tagForUnderAgeOfConsent = true
+            parameters.isTaggedForUnderAgeOfConsent = true
         } else {
-            parameters.tagForUnderAgeOfConsent = false
+            parameters.isTaggedForUnderAgeOfConsent = false
         }
 
-        UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters, completionHandler: {(error) in
+        ConsentInformation.shared.requestConsentInfoUpdate(with: parameters, completionHandler: {(error) in
             if let error = error as NSError? {
                 // deal with error
                 print("Error verifyConsent: \(error.localizedDescription)")
                 self.endError(error: error.localizedDescription, command: command)
             } else { // now check for available form and load it
              
-              let formStatus = UMPConsentInformation.sharedInstance.formStatus
+              let formStatus = ConsentInformation.shared.formStatus
               if formStatus == .available {
                 self.loadForm(command: command, forceForm: false)
               } else if formStatus == .unavailable {
@@ -64,7 +64,7 @@ class Ump : CDVPlugin {
     }
         
     func loadForm(command: CDVInvokedUrlCommand, forceForm:Bool) {
-        UMPConsentForm.load(completionHandler: { (form, loadError) in
+        ConsentForm.load(completionHandler: { (form, loadError) in
             if let error = loadError as NSError? {
                 // deal with error loading form
                 print("Error verifyConsent: \(error.localizedDescription)")
@@ -75,7 +75,7 @@ class Ump : CDVPlugin {
                     // force display the form
                     // usable for settings section
                     form?.present(from: self.viewController, completionHandler: {(error) in
-                        if UMPConsentInformation.sharedInstance.consentStatus == .obtained {
+                        if ConsentInformation.shared.consentStatus == .obtained {
                             // user gave consent
                             // OK to serve ads
                             print("User got the form and gave consent")
@@ -91,9 +91,9 @@ class Ump : CDVPlugin {
                 } else
                 {
                     // If user didn't get a consent form before, display it
-                    if UMPConsentInformation.sharedInstance.consentStatus == .required {
+                    if ConsentInformation.shared.consentStatus == .required {
                         form?.present(from: self.viewController, completionHandler: {(error) in
-                            if UMPConsentInformation.sharedInstance.consentStatus == .obtained {
+                            if ConsentInformation.shared.consentStatus == .obtained {
                                 // user gave consent
                                 // OK to serve ads
                                 print("User got the form and gave consent")
@@ -105,7 +105,7 @@ class Ump : CDVPlugin {
                                 self.endSuccess(jsonResult: jsonResult, command: command)
                             }
                         })
-                    } else if UMPConsentInformation.sharedInstance.consentStatus == .obtained {
+                    } else if ConsentInformation.shared.consentStatus == .obtained {
                         // if user received the consent form before and gave consent
                         // OK to serve ads
                         print("User gave consent before")
@@ -125,7 +125,7 @@ class Ump : CDVPlugin {
 
     @objc(reset:)
     func reset(command: CDVInvokedUrlCommand) {
-    	UMPConsentInformation.sharedInstance.reset()
+    	ConsentInformation.shared.reset()
 	self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK), callbackId: command.callbackId)
     }
 }
