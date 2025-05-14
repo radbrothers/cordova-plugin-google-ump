@@ -64,7 +64,7 @@ class Ump : CDVPlugin {
     }
         
     func loadForm(command: CDVInvokedUrlCommand, forceForm:Bool) {
-        ConsentForm.load(with: completionHandler: { (form, loadError) in
+        ConsentForm.load(with: { (form, loadError) in
             if let error = loadError as NSError? {
                 // deal with error loading form
                 print("Error verifyConsent: \(error.localizedDescription)")
